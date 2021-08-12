@@ -4,8 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 const OptimizeThreePlugin = require("@vxna/optimize-three-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
@@ -48,15 +49,13 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.ProgressPlugin(),
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ["docs/js", "docs/css"],
-    }),
+    new CleanWebpackPlugin(["docs/js", "docs/css"]),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       inject: false,
     }),
     new webpack.HotModuleReplacementPlugin(), // Enable HMR
+    new webpack.HashedModuleIdsPlugin(),
     new BrowserSyncPlugin(
       {
         host: "localhost",
@@ -88,10 +87,9 @@ module.exports = {
     hot: true, // Tell the dev-server we're using HMR
     contentBase: path.resolve(__dirname, "docs"),
   },
-  devtool: devMode ? "eval-cheap-source-map" : false,
+  devtool: devMode ? "cheap-eval-source-map" : false,
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin(), "..."],
-    moduleIds: "deterministic",
+    minimizer: [new MinifyPlugin(), new OptimizeCSSAssetsPlugin()],
     runtimeChunk: "single",
     splitChunks: {
       chunks: "all",

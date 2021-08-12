@@ -1,29 +1,29 @@
-// @font-face {
-//   font-family: "Schnyder L Web";
-//   src: url("../../docs/fonts/SchnyderL-Bold-Web.woff2") format("woff2"),
-//     url("../../docs/fonts/SchnyderL-Bold-Web.woff") format("woff");
-//   font-weight: 700;
-//   font-style: normal;
-//   font-stretch: normal;
-// }
+@font-face {
+  font-family: "Schnyder L Web";
+  src: url("../../docs/fonts/SchnyderL-Bold-Web.woff2") format("woff2"),
+    url("../../docs/fonts/SchnyderL-Bold-Web.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+}
 
-// @font-face {
-//   font-family: "SuisseIntl-Bold";
-//   src: url("../../docs/fonts/SuisseIntl-Bold.woff2") format("woff2"),
-//     url("../../docs/fonts/SuisseIntl-Bold.woff") format("woff");
-//   font-weight: 700;
-//   font-style: normal;
-//   font-stretch: normal;
-// }
+@font-face {
+  font-family: "SuisseIntl-Bold";
+  src: url("../../docs/fonts/SuisseIntl-Bold.woff2") format("woff2"),
+    url("../../docs/fonts/SuisseIntl-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+}
 
-// @font-face {
-//   font-family: "SuisseIntl-Regular";
-//   src: url("../../docs/fonts/SuisseIntl-Regular.woff2") format("woff2"),
-//     url("../../docs/fonts/SuisseIntl-Regular.woff") format("woff");
-//   font-weight: 700;
-//   font-style: normal;
-//   font-stretch: normal;
-// }
+@font-face {
+  font-family: "SuisseIntl-Regular";
+  src: url("../../docs/fonts/SuisseIntl-Regular.woff2") format("woff2"),
+    url("../../docs/fonts/SuisseIntl-Regular.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+}
 
 html,
 body {
@@ -71,7 +71,7 @@ canvas {
   height: 100%;
   align-items: center;
   justify-content: center;
-  font-family: "Schnyder L Web";
+  font-family: "SuisseIntl-Bold";
   color: #1b42d8;
   font-size: 40px;
   z-index: 5;

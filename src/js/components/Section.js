@@ -95,7 +95,7 @@ export default class Section extends THREE.Group {
 
   createIntroSection() {
     this.addText({
-      text: "COMPSCI STUDENT\nAI ENTHUSIAST\nMAKER",
+      text: "EXPLORE\nVIDEO GAME HISTORY\nTHROUGH",
       font: "SuisseIntl-Bold",
       size: 60,
       x: 0,
@@ -104,24 +104,24 @@ export default class Section extends THREE.Group {
     });
 
     this.addText({
-      text: "ETHAN",
+      text: "SOUND",
       font: "bruh_outline",
       size: 400,
       x: 0,
-      y: 250,
+      y: 0,
       z: -500,
       segments: 15,
     });
 
-    this.addText({
-      text: "JOSEPH",
-      font: "bruh_outline",
-      size: 400,
-      x: -60,
-      y: -200,
-      z: -500,
-      segments: 15,
-    });
+    // this.addText({
+    //   text: "JOSEPH",
+    //   font: "bruh_outline",
+    //   size: 400,
+    //   x: -60,
+    //   y: -200,
+    //   z: -500,
+    //   segments: 15,
+    // });
 
     this.addIntroBadge();
   }
@@ -537,7 +537,16 @@ Tools:
       font: "SuisseIntl-Bold",
       size: 60,
       x: 0,
-      y: 0,
+      y: 50,
+      z: 0,
+    });
+
+    this.addText({
+      text: "HOPE YOU LEARNED\nSOMETHING NEW!",
+      font: "Suisse Intl",
+      size: 60,
+      x: 0,
+      y: -50,
       z: 0,
     });
 
