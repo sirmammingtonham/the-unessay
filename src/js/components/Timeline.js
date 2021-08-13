@@ -1039,6 +1039,20 @@ export default class Timeline {
       window.addEventListener("deviceorientation", this.updateOrientation);
       this.dom.compass.addEventListener("click", this.resetOrientation, false);
     }
+    document.querySelector("#mute").addEventListener(
+      "click",
+      () => {
+        this.audio.pause();
+      },
+      false
+    );
+    document.querySelector("#unmute").addEventListener(
+      "click",
+      () => {
+        this.audio.play();
+      },
+      false
+    );
 
     document
       .querySelector(".bibliography")

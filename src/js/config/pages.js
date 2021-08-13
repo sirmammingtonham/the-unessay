@@ -12,19 +12,19 @@ const pages = {
     contactColor: 0x192759,
   },
   baby: {
+    textColor: 0xfd6f53,
+    bgColor: 0x012534,
+    tintColor: 0x012534,
+  },
+  arcade: {
     textColor: 0xfb9364,
     bgColor: 0x2c57a2,
     tintColor: 0x36579d,
   },
-  arcade: {
+  consoles: {
     textColor: 0xf7cf7e,
     bgColor: 0x428884,
     tintColor: 0x428884,
-  },
-  consoles: {
-    textColor: 0xfd6f53,
-    bgColor: 0x012534,
-    tintColor: 0x012534,
   },
   sampling: {
     textColor: 0x003036,
