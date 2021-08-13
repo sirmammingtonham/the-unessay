@@ -58,7 +58,7 @@ export default class Timeline {
     this.assetList = Object.fromEntries(
       Object.entries(assetData).map(([key, val], _) => [key, Object.keys(val)])
     );
-    this.assetList.resume = ["resume.png"];
+    // this.assetList.bibliography = ["resume.png"];
     this.assetList.end = ["wave.mp4"];
     this.assetData = assetData;
 
@@ -153,6 +153,11 @@ export default class Timeline {
     this.mouse = new THREE.Vector2();
     this.mousePerspective = new THREE.Vector2();
 
+    let listener = new THREE.AudioListener();
+    this.camera.add(listener);
+    this.audio = new THREE.Audio(listener);
+    this.audioLoader = new THREE.AudioLoader();
+
     window.addEventListener("devicemotion", (event) => {
       if (
         event.rotationRate.alpha ||
@@ -234,12 +239,12 @@ export default class Timeline {
 
     this.videoCount = this.videoItems.length;
 
-    this.resumeSection = new Section({
+    this.bibliographySection = new Section({
       timeline: timeline,
-      section: "resume",
+      section: "bibliography",
     });
-    this.resumeSection.visible = false;
-    this.scene.add(this.resumeSection);
+    this.bibliographySection.visible = false;
+    this.scene.add(this.bibliographySection);
 
     this.linkGroup = new THREE.Group();
 
@@ -278,6 +283,8 @@ export default class Timeline {
   }
 
   moveToStart() {
+    this.audio.play();
+
     TweenMax.to(this.camera.position, 2, {
       y: 0,
       ease: "Expo.easeInOut",
@@ -292,7 +299,7 @@ export default class Timeline {
       },
     });
 
-    TweenMax.to([".resume", ".logo", ".social"], 2, {
+    TweenMax.to([".bibliography", ".logo", ".social"], 2, {
       y: 0,
       delay: 1,
       ease: "Expo.easeInOut",
@@ -413,13 +420,13 @@ export default class Timeline {
         window.open(item.data.link, "_blank");
       };
 
-      this.linkGroup.position.y = item.caption.position.y + 45; 
-// item.caption
-//         ? item.caption.position.y - 20
-//         : -item.mesh.scale.y / 2 - 50;
-console.log(item.caption.position.y - 20);
-console.log(-item.mesh.scale.y / 2 - 50);
-    console.log(this.linkGroup.position.y);
+      this.linkGroup.position.y = item.caption.position.y + 45;
+      // item.caption
+      //         ? item.caption.position.y - 20
+      //         : -item.mesh.scale.y / 2 - 50;
+      console.log(item.caption.position.y - 20);
+      console.log(-item.mesh.scale.y / 2 - 50);
+      console.log(this.linkGroup.position.y);
 
       TweenMax.fromTo(
         this.linkGroup.position,
@@ -551,21 +558,21 @@ console.log(-item.mesh.scale.y / 2 - 50);
     }
   }
 
-  openResume(e) {
+  openBibliography(e) {
     e.preventDefault();
 
-    if (this.resumeSection.isOpen) return this.closeResume();
+    if (this.bibliographySection.isOpen) return this.closeBibliography();
 
     this.dom.cursor.dataset.cursor = "cross";
 
-    this.resumeSection.visible = true;
-    this.resumeSection.isOpen = true;
+    this.bibliographySection.visible = true;
+    this.bibliographySection.isOpen = true;
     this.c.allowScrolling = false;
     this.linkUnderlineMat.visible = true;
     this.linkUnderlineMat.opacity = 0.3;
 
     TweenMax.to(this.camera.position, 2, {
-      y: this.resumeSection.position.y * this.scene.scale.y,
+      y: this.bibliographySection.position.y * this.scene.scale.y,
       ease: "Expo.easeInOut",
       onComplete: () => {
         this.timeline.visible = false;
@@ -573,15 +580,15 @@ console.log(-item.mesh.scale.y / 2 - 50);
     });
   }
 
-  closeResume() {
+  closeBibliography() {
     this.timeline.visible = true;
-    this.resumeSection.isOpen = false;
+    this.bibliographySection.isOpen = false;
 
     TweenMax.to(this.camera.position, 2, {
       y: 0,
       ease: "Expo.easeInOut",
       onComplete: () => {
-        this.resumeSection.visible = false;
+        this.bibliographySection.visible = false;
         this.c.allowScrolling = true;
         this.linkUnderlineMat.visible = false;
         this.linkUnderlineMat.opacity = 0;
@@ -613,12 +620,12 @@ console.log(-item.mesh.scale.y / 2 - 50);
 
     this.c.holdingMouseDown = true;
 
-    if (this.resumeSection.isOpen) {
+    if (this.bibliographySection.isOpen) {
       if (this.linkIntersect.length > 0) {
         if (this.linkIntersect[0].object.onClick)
           this.linkIntersect[0].object.onClick();
       } else {
-        this.closeResume();
+        this.closeBibliography();
       }
     } else if (this.itemOpen) {
       if (this.linkIntersect.length > 0) {
@@ -686,7 +693,7 @@ console.log(-item.mesh.scale.y / 2 - 50);
 
     // raycast for items when in timeline mode
     if (
-      !this.resumeSection.isOpen &&
+      !this.bibliographySection.isOpen &&
       !this.itemOpen &&
       !this.c.holdingMouseDown
     ) {
@@ -729,7 +736,7 @@ console.log(-item.mesh.scale.y / 2 - 50);
 
     // raycast for item link
     if (
-      !this.resumeSection.isOpen &&
+      !this.bibliographySection.isOpen &&
       this.itemOpen &&
       this.itemOpen.data.link
     ) {
@@ -742,9 +749,9 @@ console.log(-item.mesh.scale.y / 2 - 50);
       }
     }
 
-    if (this.resumeSection.isOpen) {
+    if (this.bibliographySection.isOpen) {
       this.linkIntersect = this.raycaster.intersectObject(
-        this.resumeSection.linkBox
+        this.bibliographySection.linkBox
       );
 
       if (this.linkIntersect.length > 0) {
@@ -890,7 +897,7 @@ console.log(-item.mesh.scale.y / 2 - 50);
         stroke: `#${interfaceColor}`,
         ease: "Power4.easeOut",
       });
-      TweenMax.to(".resume .underline", 1, {
+      TweenMax.to(".bibliography .underline", 1, {
         borderBottomColor: `#${interfaceColor}`,
         ease: "Power4.easeOut",
       });
@@ -1014,7 +1021,7 @@ console.log(-item.mesh.scale.y / 2 - 50);
     this.scroll = this.scroll.bind(this);
     this.mouseDown = this.mouseDown.bind(this);
     this.mouseUp = this.mouseUp.bind(this);
-    this.openResume = this.openResume.bind(this);
+    this.openBibliography = this.openBibliography.bind(this);
     this.moveToStart = this.moveToStart.bind(this);
 
     window.addEventListener("resize", this.resize, false);
@@ -1034,8 +1041,8 @@ console.log(-item.mesh.scale.y / 2 - 50);
     }
 
     document
-      .querySelector(".resume")
-      .addEventListener("click", this.openResume, false);
+      .querySelector(".bibliography")
+      .addEventListener("click", this.openBibliography, false);
     if (this.enableLoader)
       document
         .querySelector(".enter")

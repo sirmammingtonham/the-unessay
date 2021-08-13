@@ -19,7 +19,7 @@ export default class Section extends THREE.Group {
         this.createProjectsSection();
         break;
       }
-      case "resume": {
+      case "bibliography": {
         this.createResumeSection();
         break;
       }
@@ -48,7 +48,7 @@ export default class Section extends THREE.Group {
         break;
       }
       default: {
-        this.addTitle(this.timeline.pages[this.section].name);
+        this.addTitle("burh");
         break;
       }
     }
@@ -603,15 +603,15 @@ Tools:
     this.position.set(0, 2000 / this.timeline.scene.scale.y, 0);
     this.visible = false;
 
-    let material = new THREE.MeshBasicMaterial({
-      map: this.timeline.assets.textures["resume"]["resume.png"],
-      transparent: true,
-    });
-    let geom = new THREE.PlaneGeometry(1, 1);
-    let resume = new THREE.Mesh(geom, material);
-    resume.scale.set(612, 792, 1);
-    resume.position.set(0, 0, 0);
-    this.add(resume);
+    // let material = new THREE.MeshBasicMaterial({
+    //   map: this.timeline.assets.textures["resume"]["resume.png"],
+    //   transparent: true,
+    // });
+    // let geom = new THREE.PlaneGeometry(1, 1);
+    // let resume = new THREE.Mesh(geom, material);
+    // resume.scale.set(612, 792, 1);
+    // resume.position.set(0, 0, 0);
+    // this.add(resume);
 
     // for raycasting so it doesn't just pick up on letters
     this.linkBox = new THREE.Mesh(
@@ -620,7 +620,7 @@ Tools:
     );
     this.linkBox.position.set(0, 0, 1);
     this.linkBox.onClick = () => {
-      window.open("assets/resume/resume.pdf", "_blank");
+      // window.open("assets/resume/resume.pdf", "_blank");
     };
     this.add(this.linkBox);
   }
