@@ -5,6 +5,7 @@ export default class AssetLoader {
   constructor(isMobile) {
     this.isMobile = isMobile;
     this.assets = {
+      audio: {},
       textures: {},
       fonts: {},
     };
@@ -25,13 +26,27 @@ export default class AssetLoader {
     let imageLoader = new THREE.TextureLoader();
     imageLoader.crossOrigin = "";
 
+    // load audio
+    let audioLoader = new THREE.AudioLoader();
+
     let preload = true;
 
     for (let page in this.assetList) {
       // preload = page === 'intro' ? true : false
 
       this.assetList[page].forEach((filename) => {
-        if (~filename.indexOf(".mp4")) {
+        if (/\.(mp3|wav)$/i.test(filename)) {
+          assetLoadPromises.push(
+            new Promise((resolve) => {
+              audioLoader.load(`music/${filename}`, (buffer) => {
+                if (!this.assets.audio[page]) this.assets.audio[page] = {};
+                // this.assets.audio[page][filename] = buffer;
+                this.assets.audio[page]['background_music'] = buffer;
+                resolve(buffer);
+              });
+            })
+          );
+        } else if (~filename.indexOf(".mp4")) {
           let video = document.createElement("video");
           video.style = "position:absolute;height:0";
           video.muted = true;

@@ -58,8 +58,7 @@ export default class Timeline {
     this.assetList = Object.fromEntries(
       Object.entries(assetData).map(([key, val], _) => [key, Object.keys(val)])
     );
-    // this.assetList.bibliography = ["resume.png"];
-    this.assetList.end = ["wave.mp4"];
+
     this.assetData = assetData;
 
     this.timelineEntered = false;
@@ -73,6 +72,8 @@ export default class Timeline {
       gamma: 0,
       beta: 0,
     };
+
+    this.muted = false;
 
     this.easterEgg = this.easterEgg.bind(this);
     new Konami(this.easterEgg);
@@ -153,10 +154,11 @@ export default class Timeline {
     this.mouse = new THREE.Vector2();
     this.mousePerspective = new THREE.Vector2();
 
-    let listener = new THREE.AudioListener();
-    this.camera.add(listener);
-    this.audio = new THREE.Audio(listener);
-    this.audioLoader = new THREE.AudioLoader();
+    this.audioListener = new THREE.AudioListener();
+    this.camera.add(this.audioListener);
+    this.audio = new THREE.Audio(this.audioListener);
+    this.audio.setVolume(0.2);
+    this.audio.loop = true;
 
     window.addEventListener("devicemotion", (event) => {
       if (
@@ -276,13 +278,14 @@ export default class Timeline {
     this.scene.add(this.linkGroup);
 
     console.log("RENDER");
-    this.animate();
     this.initCursorListeners();
     this.initListeners();
+    this.animate();
     document.body.classList.add("ready");
   }
 
   moveToStart() {
+    this.audio.setBuffer(this.assets.audio["intro"]["background_music"]);
     this.audio.play();
 
     TweenMax.to(this.camera.position, 2, {
@@ -299,7 +302,7 @@ export default class Timeline {
       },
     });
 
-    TweenMax.to([".bibliography", ".logo", ".social"], 2, {
+    TweenMax.to([".bibliography", ".logo", ".toggle-mute"], 2, {
       y: 0,
       delay: 1,
       ease: "Expo.easeInOut",
@@ -832,6 +835,37 @@ export default class Timeline {
       let tintColor = new THREE.Color(this.pages[this.activePage].tintColor);
       let interfaceColor;
 
+      let volume = { volume: this.audio.getVolume() };
+      TweenMax.to([volume], 1, {
+        volume: 0,
+        ease: "Power4.easeOut",
+        onUpdateParams: [volume],
+        onUpdate: (volume) => {
+          this.audio.setVolume(volume.volume);
+        },
+        onComplete: () => {
+          this.audio = new THREE.Audio(this.audioListener);
+          this.audio.setVolume(0.2);
+          this.audio.loop = true;
+          this.audio.setBuffer(
+            this.assets.audio[this.activePage]["background_music"]
+          );
+          if (!this.muted) {
+            this.audio.play();
+          }
+
+          // fade the volume back
+          TweenMax.to([volume], 1, {
+            volume: 0.2,
+            ease: "Power4.easeOut",
+            onUpdateParams: [volume],
+            onUpdate: (volume) => {
+              this.audio.setVolume(volume.volume);
+            },
+          });
+        },
+      });
+
       TweenMax.to([this.scene.fog.color, this.scene.background], 1, {
         r: bgColor.r,
         g: bgColor.g,
@@ -1039,17 +1073,23 @@ export default class Timeline {
       window.addEventListener("deviceorientation", this.updateOrientation);
       this.dom.compass.addEventListener("click", this.resetOrientation, false);
     }
-    document.querySelector("#mute").addEventListener(
+
+    this.muteButton = document.getElementById("mute");
+    this.unmuteButton = document.getElementById("unmute");
+    let muteDiv = document.querySelector(".toggle-mute");
+    muteDiv.appendChild(this.muteButton);
+    muteDiv.addEventListener(
       "click",
       () => {
-        this.audio.pause();
-      },
-      false
-    );
-    document.querySelector("#unmute").addEventListener(
-      "click",
-      () => {
-        this.audio.play();
+        if (this.muted) {
+          this.audio.play();
+          this.muted = false;
+          muteDiv.replaceChild(this.muteButton, this.unmuteButton);
+        } else {
+          this.audio.pause();
+          this.muted = true;
+          muteDiv.replaceChild(this.unmuteButton, this.muteButton);
+        }
       },
       false
     );

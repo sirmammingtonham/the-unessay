@@ -313,13 +313,13 @@ main {
   }
 }
 
-.social {
+.toggle-mute {
   position: absolute;
   bottom: 15px;
   right: 15px;
   transform: translateY(80px);
 
-  .social-link {
+  .toggle-mute-link {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -329,6 +329,10 @@ main {
       margin-right: 10px;
     }
   }
+}
+
+.hidden {
+  display: none;
 }
 
 .compass {

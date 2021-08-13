@@ -132,15 +132,26 @@ export default class Section extends THREE.Group {
     this.add(image);
   }
 
+  addSound(args) {
+//     this.sound = new THREE.PositionalAudio(this.timeline.audioListener);
+//     this.sound.setBuffer(
+//       this.timeline.assets.audio[this.section][args.filename]
+//     );
+// this.sound.setDistanceModel("inverse");
+//     // this.sound.setRefDistance(1);
+//     this.sound.setVolume(args.volume ?? 0.3);
+//     this.sound.setRolloffFactor(0.05);
+//     this.sound.setVolume(0.2);
+//     this.sound.setLoop(true);
+//     // this.sound.setMaxDistance(20);
+//     this.add(this.sound);
+  }
+
   createIntroSection() {
-    this.timeline.audioLoader.load(
-      "music/Pokemon Platinum - Jubilife City.mp3",
-      (buffer) => {
-        this.timeline.audio.setBuffer(buffer);
-        this.timeline.audio.setLoop(true);
-        this.timeline.audio.setVolume(0.5);
-      }
-    );
+    this.addSound({
+      filename: "Pokemon Platinum - Jubilife City.mp3",
+      distance: 20,
+    });
 
     this.addImage({
       file: "assets/general/Pokemon+Music.png",
@@ -201,30 +212,37 @@ export default class Section extends THREE.Group {
 
   createArcadeSection() {
     this.addTitle("ARCADE ERA");
+this.addSubtitle("A glorious cacophany.", -150);
   }
 
   createConsolesSection() {
-    this.addTitle("HOME CONSOLES");
+    this.addTitle("ADVENT OF HOME CONSOLES");
+this.addSubtitle("NES FTW.", -150);
   }
 
   createSamplingSection() {
     this.addTitle("FM SYNTHESIS & SAMPLING");
+this.addSubtitle("80s, synths, and long hair.", -150);
   }
 
   createMIDISection() {
     this.addTitle("SOUND CARDS & MIDI");
+this.addSubtitle("Big leaps.", -150);
   }
 
   createCdSection() {
-    this.addTitle("CD AUDIO");
+    this.addTitle("CD AUDIO & MP3");
+this.addSubtitle("Changed the game.", -150);
   }
 
   createDynamicSection() {
     this.addTitle("DYNAMIC MUSIC");
+this.addSubtitle("Immersive af.", -150);
   }
 
   createModernSection() {
     this.addTitle("MODERN SOUND DESIGN");
+this.addSubtitle("Look how far we've come!", -150);
   }
 
   createEndSection() {
