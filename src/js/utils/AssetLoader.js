@@ -6,6 +6,7 @@ export default class AssetLoader {
     this.isMobile = isMobile;
     this.assets = {
       audio: {},
+      videos: {},
       textures: {},
       fonts: {},
     };
@@ -41,7 +42,7 @@ export default class AssetLoader {
               audioLoader.load(`music/${filename}`, (buffer) => {
                 if (!this.assets.audio[page]) this.assets.audio[page] = {};
                 // this.assets.audio[page][filename] = buffer;
-                this.assets.audio[page]['background_music'] = buffer;
+                this.assets.audio[page]["background_music"] = buffer;
                 resolve(buffer);
               });
             })
@@ -50,14 +51,14 @@ export default class AssetLoader {
           let video = document.createElement("video");
           video.style = "position:absolute;height:0";
           video.muted = true;
+          video.volume = 0.2;
           video.autoplay = false;
           video.loop = true;
           video.crossOrigin = "anonymous";
-          video.setAttribute("muted", true);
-          video.setAttribute("webkit-playsinline", true);
-          video.setAttribute("playsinline", true);
           video.preload = "metadata";
           video.src = `assets/${page}/${filename}`;
+          video.setAttribute("webkit-playsinline", true);
+          video.setAttribute("playsinline", true);
           document.body.appendChild(video);
           video.load(); // must call after setting/changing source
 
@@ -221,5 +222,7 @@ export default class AssetLoader {
 
     if (!this.assets.textures[page]) this.assets.textures[page] = {};
     this.assets.textures[page][filename] = texture;
+    if (!this.assets.videos[page]) this.assets.videos[page] = {};
+    this.assets.videos[page][filename] = video;
   }
 }

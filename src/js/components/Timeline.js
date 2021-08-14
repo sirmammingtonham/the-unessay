@@ -325,6 +325,9 @@ export default class Timeline {
   }
 
   openItem(item) {
+    this.audio.pause();
+    item.video.muted = false;
+
     this.itemAnimating = true;
     this.itemOpen = item;
     this.origTimelinePos = this.timeline.position.z;
@@ -480,6 +483,11 @@ export default class Timeline {
 
   closeItem() {
     if (!this.itemAnimating && this.itemOpen) {
+      if (!this.isMuted) {
+        this.audio.play();
+      }
+      this.itemOpen.video.muted = true;
+
       this.itemAnimating = true;
       this.dom.cursor.dataset.cursor = "pointer";
 

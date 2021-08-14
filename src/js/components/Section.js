@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { ImageItem, TextItem } from "./Item";
+import { ImageItem, TextItem, VideoItem } from "./Item";
 
 export default class Section extends THREE.Group {
   constructor(opts = { timeline, section }) {
@@ -132,27 +132,7 @@ export default class Section extends THREE.Group {
     this.add(image);
   }
 
-  addSound(args) {
-//     this.sound = new THREE.PositionalAudio(this.timeline.audioListener);
-//     this.sound.setBuffer(
-//       this.timeline.assets.audio[this.section][args.filename]
-//     );
-// this.sound.setDistanceModel("inverse");
-//     // this.sound.setRefDistance(1);
-//     this.sound.setVolume(args.volume ?? 0.3);
-//     this.sound.setRolloffFactor(0.05);
-//     this.sound.setVolume(0.2);
-//     this.sound.setLoop(true);
-//     // this.sound.setMaxDistance(20);
-//     this.add(this.sound);
-  }
-
   createIntroSection() {
-    this.addSound({
-      filename: "Pokemon Platinum - Jubilife City.mp3",
-      distance: 20,
-    });
-
     this.addImage({
       file: "assets/general/Pokemon+Music.png",
       scalex: 1200,
@@ -202,47 +182,144 @@ export default class Section extends THREE.Group {
 
   createBackgroundSection() {
     this.addTitle("BACKGROUND");
+
+    this.addText({
+      text: "Something something something tied to the evolution of technology.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createBabySection() {
     this.addTitle("BABY STEPS");
     this.addSubtitle("When sound was first", -150);
     this.addSubtitle("introduced to video games.", -250);
+
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
+
+    let id,
+      itemIndex = 0;
+
+    this.timeline.assetList[this.section].forEach((filename) => {
+      if (~filename.indexOf(".mp3")) return;
+      id = `${this.section}/${filename}`;
+
+      this.timeline.items[id] = new VideoItem({
+        assetId: id,
+        timeline: this.timeline,
+        texture: this.timeline.assets.textures[this.section][filename],
+        video: this.timeline.assets.videos[this.section][filename],
+        data: this.timeline.assetData[this.section][filename],
+        page: this.section,
+        itemIndex: itemIndex,
+        itemIndexTotal: itemIndex,
+      });
+
+      this.add(this.timeline.items[id]);
+
+      itemIndex++;
+    });
   }
 
   createArcadeSection() {
     this.addTitle("ARCADE ERA");
-this.addSubtitle("A glorious cacophany.", -150);
+    this.addSubtitle("A glorious cacophany.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createConsolesSection() {
     this.addTitle("ADVENT OF HOME CONSOLES");
-this.addSubtitle("NES FTW.", -150);
+    this.addSubtitle("NES FTW.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createSamplingSection() {
     this.addTitle("FM SYNTHESIS & SAMPLING");
-this.addSubtitle("80s, synths, and long hair.", -150);
+    this.addSubtitle("80s, synths, and long hair.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createMIDISection() {
     this.addTitle("SOUND CARDS & MIDI");
-this.addSubtitle("Big leaps.", -150);
+    this.addSubtitle("Big leaps.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createCdSection() {
     this.addTitle("CD AUDIO & MP3");
-this.addSubtitle("Changed the game.", -150);
+    this.addSubtitle("Changed the game.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createDynamicSection() {
     this.addTitle("DYNAMIC MUSIC");
-this.addSubtitle("Immersive af.", -150);
+    this.addSubtitle("Immersive af.", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createModernSection() {
     this.addTitle("MODERN SOUND DESIGN");
-this.addSubtitle("Look how far we've come!", -150);
+    this.addSubtitle("Look how far we've come!", -150);
+    this.addText({
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -700,
+    });
   }
 
   createEndSection() {
