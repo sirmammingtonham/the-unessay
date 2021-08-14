@@ -73,7 +73,8 @@ export default class Timeline {
       beta: 0,
     };
 
-    this.muted = false;
+    this.isMuted = false;
+    this.isWhooshing = false;
 
     this.easterEgg = this.easterEgg.bind(this);
     new Konami(this.easterEgg);
@@ -643,6 +644,7 @@ export default class Timeline {
         this.dom.cursor.dataset.cursor = "cross";
       } else if (this.hoveringWhoosh) {
         this.c.scrolling = true;
+        this.isWhooshing = true;
 
         TweenMax.to(this.c, 4, {
           scrollPos: 0,
@@ -814,7 +816,7 @@ export default class Timeline {
     };
   }
 
-  changeColours(override = false) {
+  updateScene(override = false) {
     this.remainingPages = Object.keys(this.pagePositions).filter((key) => {
       return this.timeline.position.z > -this.pagePositions[key]; // TODO: look into detecting if exists in camera
     });
@@ -844,14 +846,16 @@ export default class Timeline {
           this.audio.setVolume(volume.volume);
         },
         onComplete: () => {
-          this.audio = new THREE.Audio(this.audioListener);
-          this.audio.setVolume(0.2);
-          this.audio.loop = true;
-          this.audio.setBuffer(
-            this.assets.audio[this.activePage]["background_music"]
-          );
-          if (!this.muted) {
-            this.audio.play();
+          if (!this.isWhooshing) {
+            this.audio = new THREE.Audio(this.audioListener);
+            this.audio.setVolume(0.2);
+            this.audio.loop = true;
+            this.audio.setBuffer(
+              this.assets.audio[this.activePage]["background_music"]
+            );
+            if (!this.isMuted) {
+              this.audio.play();
+            }
           }
 
           // fade the volume back
@@ -1007,7 +1011,14 @@ export default class Timeline {
       this.timeline.position.z += delta;
 
       if (!this.c.isMobile && Math.abs(delta) < 8) this.handleVideos();
-      if (!this.easterEggEnabled) this.changeColours();
+      if (!this.easterEggEnabled) this.updateScene();
+
+      if (this.isWhooshing && this.c.scrollPos === 0) {
+        this.isWhooshing = false;
+        if (!this.isMuted) {
+          this.audio.play();
+        }
+      }
 
       // if( this.timeline.position.z < 700 ) {
       //     TweenMax.set( this.sections['intro'].circle.rotation, {
@@ -1081,13 +1092,13 @@ export default class Timeline {
     muteDiv.addEventListener(
       "click",
       () => {
-        if (this.muted) {
+        if (this.isMuted) {
           this.audio.play();
-          this.muted = false;
+          this.isMuted = false;
           muteDiv.replaceChild(this.muteButton, this.unmuteButton);
         } else {
           this.audio.pause();
-          this.muted = true;
+          this.isMuted = true;
           muteDiv.replaceChild(this.unmuteButton, this.muteButton);
         }
       },
