@@ -70,13 +70,9 @@ export default class Section extends THREE.Group {
       curveSegments: 10,
     }).center();
 
-    let pageName = new THREE.Mesh(textGeom, this.timeline.textMat);
-    pageName.position.set(
-      this.timeline.pages[this.section].offset || 0,
-      y ?? 0,
-      0
-    );
-    this.add(pageName);
+    let p = new THREE.Mesh(textGeom, this.timeline.textMat);
+    p.position.set(this.timeline.pages[this.section].offset || 0, y ?? 0, 0);
+    this.add(p);
   }
 
   addSubtitle(subtitle, y = null) {
@@ -87,13 +83,22 @@ export default class Section extends THREE.Group {
       curveSegments: 10,
     }).center();
 
-    let pageName = new THREE.Mesh(textGeom, this.timeline.textMat);
-    pageName.position.set(
-      this.timeline.pages[this.section].offset || 0,
-      y ?? -100,
-      0
-    );
-    this.add(pageName);
+    let p = new THREE.Mesh(textGeom, this.timeline.textMat);
+    p.position.set(this.timeline.pages[this.section].offset || 0, y ?? -100, 0);
+    this.add(p);
+  }
+
+  addEra(era, y = null) {
+    let textGeom = new THREE.TextBufferGeometry(era, {
+      font: this.timeline.assets.fonts["Schnyder L"],
+      size: 40,
+      height: 0,
+      curveSegments: 10,
+    }).center();
+
+    let p = new THREE.Mesh(textGeom, this.timeline.textMat);
+    p.position.set(this.timeline.pages[this.section].offset || 0, y ?? -250, 0);
+    this.add(p);
   }
 
   addLinkBox(args) {
@@ -132,9 +137,35 @@ export default class Section extends THREE.Group {
     this.add(image);
   }
 
+  addVids() {
+    let id,
+      itemIndex = 0;
+
+    this.timeline.assetList[this.section].forEach((filename) => {
+      if (~filename.indexOf(".mp3")) return;
+      id = `${this.section}/${filename}`;
+
+      this.timeline.items[id] = new VideoItem({
+        assetId: id,
+        timeline: this.timeline,
+        texture: this.timeline.assets.textures[this.section][filename],
+        video: this.timeline.assets.videos[this.section][filename],
+        data: this.timeline.assetData[this.section][filename],
+        page: this.section,
+        itemIndex: itemIndex,
+        itemIndexTotal: itemIndex,
+// size: {x: 300, y: 300},
+      });
+
+      this.add(this.timeline.items[id]);
+
+      itemIndex++;
+    });
+  }
+
   createIntroSection() {
     this.addImage({
-      file: "assets/general/Pokemon+Music.png",
+      file: "assets/intro/Pokemon+Music.png",
       scalex: 1200,
       scaley: 800,
       scalez: 1,
@@ -197,6 +228,7 @@ export default class Section extends THREE.Group {
     this.addTitle("BABY STEPS");
     this.addSubtitle("When sound was first", -150);
     this.addSubtitle("introduced to video games.", -250);
+    this.addEra("The '70s", -350);
 
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
@@ -207,33 +239,13 @@ export default class Section extends THREE.Group {
       z: -700,
     });
 
-    let id,
-      itemIndex = 0;
-
-    this.timeline.assetList[this.section].forEach((filename) => {
-      if (~filename.indexOf(".mp3")) return;
-      id = `${this.section}/${filename}`;
-
-      this.timeline.items[id] = new VideoItem({
-        assetId: id,
-        timeline: this.timeline,
-        texture: this.timeline.assets.textures[this.section][filename],
-        video: this.timeline.assets.videos[this.section][filename],
-        data: this.timeline.assetData[this.section][filename],
-        page: this.section,
-        itemIndex: itemIndex,
-        itemIndexTotal: itemIndex,
-      });
-
-      this.add(this.timeline.items[id]);
-
-      itemIndex++;
-    });
+    this.addVids();
   }
 
   createArcadeSection() {
     this.addTitle("ARCADE ERA");
     this.addSubtitle("A glorious cacophany.", -150);
+    this.addEra("1980-1985");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -242,11 +254,14 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
   createConsolesSection() {
     this.addTitle("ADVENT OF HOME CONSOLES");
     this.addSubtitle("NES FTW.", -150);
+    this.addEra("1983-1985");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -255,11 +270,14 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
   createSamplingSection() {
     this.addTitle("FM SYNTHESIS & SAMPLING");
     this.addSubtitle("80s, synths, and long hair.", -150);
+    this.addEra("1984-1990");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -268,11 +286,14 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
   createMIDISection() {
     this.addTitle("SOUND CARDS & MIDI");
     this.addSubtitle("Big leaps.", -150);
+    this.addEra("1990-1993");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -281,11 +302,14 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
   createCdSection() {
     this.addTitle("CD AUDIO & MP3");
     this.addSubtitle("Changed the game.", -150);
+    this.addEra("1993-2000");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -294,24 +318,29 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
-  createDynamicSection() {
-    this.addTitle("DYNAMIC MUSIC");
-    this.addSubtitle("Immersive af.", -150);
-    this.addText({
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
-      font: "SuisseIntl-Bold",
-      size: 26,
-      x: 0,
-      y: 0,
-      z: -700,
-    });
-  }
+  // createDynamicSection() {
+  //   this.addTitle("DYNAMIC MUSIC");
+  //   this.addSubtitle("Immersive af.", -150);
+  //   this.addText({
+  //     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
+  //     font: "SuisseIntl-Bold",
+  //     size: 26,
+  //     x: 0,
+  //     y: 0,
+  //     z: -700,
+  //   });
+
+  //   this.addVids();
+  // }
 
   createModernSection() {
-    this.addTitle("MODERN SOUND DESIGN");
+    this.addTitle("MODERN GAME AUDIO");
     this.addSubtitle("Look how far we've come!", -150);
+    this.addEra("????-Present");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
@@ -320,6 +349,8 @@ export default class Section extends THREE.Group {
       y: 0,
       z: -700,
     });
+
+    this.addVids();
   }
 
   createEndSection() {

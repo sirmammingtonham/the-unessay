@@ -41,12 +41,12 @@ const pages = {
     bgColor: 0x424c65,
     tintColor: 0x444c63,
   },
-  dynamic: {
-    textColor: 0x166c21,
-    bgColor: 0xffcda1,
-    tintColor: 0x336a2c,
-    contactColor: 0x745d49,
-  },
+  // dynamic: {
+  //   textColor: 0x166c21,
+  //   bgColor: 0xffcda1,
+  //   tintColor: 0x336a2c,
+  //   contactColor: 0x745d49,
+  // },
   modern: {
     textColor: 0xf7a910,
     bgColor: 0x5198a8,

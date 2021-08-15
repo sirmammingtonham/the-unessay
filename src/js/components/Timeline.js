@@ -101,7 +101,7 @@ export default class Timeline {
 
     if (this.enableLoader) {
       setTimeout(() => {
-        assetLoader.load(this.assetList, this.renderer).then((assets) => {
+        assetLoader.load(this.assetList, this.assetData, this.renderer).then((assets) => {
           this.assets = assets;
           console.log("ASSETS LOADED");
 
@@ -110,7 +110,7 @@ export default class Timeline {
         });
       }, 2000);
     } else {
-      assetLoader.load(this.assetList, this.renderer).then((assets) => {
+      assetLoader.load(this.assetList, this.assetData, this.renderer).then((assets) => {
         this.assets = assets;
         console.log("ASSETS LOADED");
 
@@ -845,16 +845,16 @@ export default class Timeline {
       let tintColor = new THREE.Color(this.pages[this.activePage].tintColor);
       let interfaceColor;
 
-      let volume = { volume: this.audio.getVolume() };
-      TweenMax.to([volume], 1, {
-        volume: 0,
-        ease: "Power4.easeOut",
-        onUpdateParams: [volume],
-        onUpdate: (volume) => {
-          this.audio.setVolume(volume.volume);
-        },
-        onComplete: () => {
-          if (!this.isWhooshing) {
+      if (!this.isWhooshing) {
+        let volume = { volume: this.audio.getVolume() };
+        TweenMax.to([volume], 1, {
+          volume: 0,
+          ease: "Power4.easeOut",
+          onUpdateParams: [volume],
+          onUpdate: (volume) => {
+            this.audio.setVolume(volume.volume);
+          },
+          onComplete: () => {
             this.audio = new THREE.Audio(this.audioListener);
             this.audio.setVolume(0.2);
             this.audio.loop = true;
@@ -864,19 +864,19 @@ export default class Timeline {
             if (!this.isMuted) {
               this.audio.play();
             }
-          }
 
-          // fade the volume back
-          TweenMax.to([volume], 1, {
-            volume: 0.2,
-            ease: "Power4.easeOut",
-            onUpdateParams: [volume],
-            onUpdate: (volume) => {
-              this.audio.setVolume(volume.volume);
-            },
-          });
-        },
-      });
+            // fade the volume back
+            TweenMax.to([volume], 1, {
+              volume: 0.2,
+              ease: "Power4.easeOut",
+              onUpdateParams: [volume],
+              onUpdate: (volume) => {
+                this.audio.setVolume(volume.volume);
+              },
+            });
+          },
+        });
+      }
 
       TweenMax.to([this.scene.fog.color, this.scene.background], 1, {
         r: bgColor.r,
@@ -1023,9 +1023,6 @@ export default class Timeline {
 
       if (this.isWhooshing && this.c.scrollPos === 0) {
         this.isWhooshing = false;
-        if (!this.isMuted) {
-          this.audio.play();
-        }
       }
 
       // if( this.timeline.position.z < 700 ) {

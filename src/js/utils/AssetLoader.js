@@ -17,7 +17,7 @@ export default class AssetLoader {
     this.videosToLoad = 0;
   }
 
-  load(assetList, renderer) {
+  load(assetList, assetData, renderer) {
     this.assetList = assetList;
     this.renderer = renderer;
 
@@ -51,7 +51,7 @@ export default class AssetLoader {
           let video = document.createElement("video");
           video.style = "position:absolute;height:0";
           video.muted = true;
-          video.volume = 0.2;
+          video.volume = assetData[page][filename]["volume"] ?? 0.2;
           video.autoplay = false;
           video.loop = true;
           video.crossOrigin = "anonymous";
@@ -193,8 +193,8 @@ export default class AssetLoader {
     // if preloaded
     if (resolve) {
       texture.size = new THREE.Vector2(
-        texture.image.videoWidth / 2,
-        texture.image.videoHeight / 2
+        texture.image.videoWidth,
+        texture.image.videoHeight
       );
       this.renderer.setTexture2D(texture, 0);
 
@@ -212,8 +212,8 @@ export default class AssetLoader {
 
       video.oncanplaythrough = () => {
         texture.size = new THREE.Vector2(
-          texture.image.videoWidth / 2,
-          texture.image.videoHeight / 2
+          texture.image.videoWidth,
+          texture.image.videoHeight
         );
         texture.needsUpdate = true;
         video.oncanplaythrough = null;
