@@ -80,7 +80,7 @@ const assetData = {
       {
         caption: "....",
       },
-    "[TAS] [Obsoleted] SNES The Legend of Zelda - A Link to the Past 'warp glitch' by Tom[...] in 02_13.21-563xdKTT-AQ_Trim":
+    "linktothepast.mp4":
       {
         caption: "....",
       },
@@ -143,6 +143,33 @@ const assetData = {
   modern: {
     "Destiny 2 - Beyond Light Original Soundtrack - Track 06 - Deep Stone Lullaby.mp3":
       BACKGROUND_MUSIC,
+    "Halo CE Anniversary Mission 4- The Silent Cartographer (No Commentary)-wR86Wda59VI_Trim.mp4":
+      {
+        caption: "....",
+      },
+    "The moment I fell in love with the Deep Stone Crypt Raid-ClSL0c4043s_Trim.mp4":
+      {
+        caption: "....",
+      },
+    "GTA 5 Radio Station Pack - Liberty Rock Radio, V-ROCK, K-DST, K-ROSE, Radio X, L.C.H.C, Tuff Gong-k0HNxHS_UUY_Trim.mp4": {
+      caption: "....",
+      volume: 0.5,
+    },
+    "Breath of the Wild - Switch Exploration Gameplay. No commentary-jc9buqCEVRw_Trim.mp4": {
+      caption: "....",
+    },
+    "[Undertale] Sans' boss fight - Genocide Run-Vr4IYjeplJA_Trim.mp4": {
+      caption: "....",
+      volume: 0.5,
+    },
+    "Cuphead Gameplay No Commentary - 8 Minutes of Inkwell Isle (Direct Feed)-5Yuh40ywJIE_Trim.mp4": {
+      caption: "....",
+      volume: 0.5,
+    },
+    "GRIS - 10 Minutes of Gameplay (No Commentary)-2WMxpRnO5w0_Trim.mp4": {
+      caption: "....",
+    },
+
   },
   end: { "Pokemon Platinum - Jubilife City.mp3": BACKGROUND_MUSIC },
 };

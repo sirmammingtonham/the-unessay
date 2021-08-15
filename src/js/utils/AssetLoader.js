@@ -193,8 +193,12 @@ export default class AssetLoader {
     // if preloaded
     if (resolve) {
       texture.size = new THREE.Vector2(
-        texture.image.videoWidth,
-        texture.image.videoHeight
+        page === "modern"
+          ? texture.image.videoWidth / 2
+          : texture.image.videoWidth,
+        page === "modern"
+          ? texture.image.videoHeight / 2
+          : texture.image.videoHeight
       );
       this.renderer.setTexture2D(texture, 0);
 
@@ -212,8 +216,12 @@ export default class AssetLoader {
 
       video.oncanplaythrough = () => {
         texture.size = new THREE.Vector2(
-          texture.image.videoWidth,
-          texture.image.videoHeight
+          page === "modern"
+            ? texture.image.videoWidth / 2
+            : texture.image.videoWidth,
+          page === "modern"
+            ? texture.image.videoHeight / 2
+            : texture.image.videoHeight
         );
         texture.needsUpdate = true;
         video.oncanplaythrough = null;
