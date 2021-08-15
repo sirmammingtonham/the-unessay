@@ -101,22 +101,26 @@ export default class Timeline {
 
     if (this.enableLoader) {
       setTimeout(() => {
-        assetLoader.load(this.assetList, this.assetData, this.renderer).then((assets) => {
+        assetLoader
+          .load(this.assetList, this.assetData, this.renderer)
+          .then((assets) => {
+            this.assets = assets;
+            console.log("ASSETS LOADED");
+
+            // all assets loaded - initialise
+            this.createTimeline();
+          });
+      }, 2000);
+    } else {
+      assetLoader
+        .load(this.assetList, this.assetData, this.renderer)
+        .then((assets) => {
           this.assets = assets;
           console.log("ASSETS LOADED");
 
           // all assets loaded - initialise
           this.createTimeline();
         });
-      }, 2000);
-    } else {
-      assetLoader.load(this.assetList, this.assetData, this.renderer).then((assets) => {
-        this.assets = assets;
-        console.log("ASSETS LOADED");
-
-        // all assets loaded - initialise
-        this.createTimeline();
-      });
     }
   }
 
@@ -325,8 +329,10 @@ export default class Timeline {
   }
 
   openItem(item) {
-    this.audio.pause();
-    item.video.muted = false;
+    if (!this.isMuted) {
+      this.audio.pause();
+      item.video.muted = false;
+    }
 
     this.itemAnimating = true;
     this.itemOpen = item;
@@ -417,6 +423,24 @@ export default class Timeline {
           ease: "Expo.easeInOut",
           onStart: () => {
             item.caption.visible = true;
+          },
+        }
+      );
+    }
+
+    if (item.content) {
+      TweenMax.fromTo(
+        item.content.position,
+        2,
+        {
+          z: -100,
+        },
+        {
+          z: 50,
+          delay: 0.2,
+          ease: "Expo.easeInOut",
+          onStart: () => {
+            item.content.visible = true;
           },
         }
       );
@@ -1098,13 +1122,22 @@ export default class Timeline {
       "click",
       () => {
         if (this.isMuted) {
-          this.audio.play();
-          this.isMuted = false;
           muteDiv.replaceChild(this.muteButton, this.unmuteButton);
+          if (this.itemOpen) {
+            this.itemOpen.video.muted = false;
+          } else {
+            this.audio.play();
+          }
+          this.isMuted = false;
         } else {
-          this.audio.pause();
-          this.isMuted = true;
           muteDiv.replaceChild(this.unmuteButton, this.muteButton);
+          if (this.itemOpen) {
+            this.itemOpen.video.muted = true;
+          } else {
+            this.audio.pause();
+          }
+
+          this.isMuted = true;
         }
       },
       false

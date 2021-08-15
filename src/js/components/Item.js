@@ -100,7 +100,6 @@ export class ImageItem extends THREE.Group {
 
       this.caption = new THREE.Mesh(captionGeom, this.timeline.captionTextMat);
       let yOffset = 25;
-      if (this.assetId === "about/me.jpg") yOffset = 170;
       this.caption.position.set(0, -(this.mesh.scale.y / 2 + yOffset), 0);
       this.caption.visible = false;
 
@@ -196,9 +195,7 @@ export class VideoItem extends THREE.Group {
   }
 
   addCaption() {
-    if (this.data.caption === "" && this.data.link === "") return;
-
-    if (this.data.caption !== "") {
+    if (this.data.caption) {
       let captionGeom = new THREE.TextBufferGeometry(this.data.caption, {
         font: this.timeline.assets.fonts["SuisseIntl-Bold"],
         size: 18,
@@ -208,11 +205,25 @@ export class VideoItem extends THREE.Group {
 
       this.caption = new THREE.Mesh(captionGeom, this.timeline.captionTextMat);
       let yOffset = 25;
-      if (this.assetId === "about/me.jpg") yOffset = 170;
       this.caption.position.set(0, -(this.mesh.scale.y / 2 + yOffset), 0);
       this.caption.visible = false;
 
       this.add(this.caption);
+    }
+    if (this.data.content) {
+      let contentGeom = new THREE.TextBufferGeometry(this.data.content, {
+        font: this.timeline.assets.fonts["Suisse Intl"],
+        size: 14,
+        height: 0,
+        curveSegments: 4,
+      }).center();
+
+      this.content = new THREE.Mesh(contentGeom, this.timeline.captionTextMat);
+      let yOffset = 75;
+      this.content.position.set(0, -(this.mesh.scale.y / 2 + yOffset), 0);
+      this.content.visible = false;
+
+      this.add(this.content);
     }
   }
 }

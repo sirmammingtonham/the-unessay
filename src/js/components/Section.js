@@ -154,7 +154,7 @@ export default class Section extends THREE.Group {
         page: this.section,
         itemIndex: itemIndex,
         itemIndexTotal: itemIndex,
-// size: {x: 300, y: 300},
+        // size: {x: 300, y: 300},
       });
 
       this.add(this.timeline.items[id]);
@@ -215,12 +215,26 @@ export default class Section extends THREE.Group {
     this.addTitle("BACKGROUND");
 
     this.addText({
-      text: "Something something something tied to the evolution of technology.",
+      text: `The music and sounds of video games enhance gameplay immensely,
+and are often the most memorable aspects of our favorite games!
+However, early video games were limited to the simple sounds 
+of programmable sound generator chips.`,
       font: "SuisseIntl-Bold",
       size: 26,
       x: 0,
       y: 0,
-      z: -700,
+      z: -800,
+    });
+
+    this.addText({
+      text: `So how did we get from the simple beeps and bloops of early games 
+to the dynamic and complex soundtracks of modern games?
+Keep scrolling to find out!`,
+      font: "SuisseIntl-Bold",
+      size: 26,
+      x: 0,
+      y: 0,
+      z: -1700,
     });
   }
 
@@ -231,8 +245,10 @@ export default class Section extends THREE.Group {
     this.addEra("The '70s", -350);
 
     this.addText({
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
-      font: "SuisseIntl-Bold",
+      text: `
+The first time sound was added to video games was in 1972 with Pong.
+Click a video to listen and learn more!`,
+      font: "Suisse Intl",
       size: 26,
       x: 0,
       y: 0,
@@ -340,7 +356,7 @@ export default class Section extends THREE.Group {
   createModernSection() {
     this.addTitle("MODERN GAME AUDIO");
     this.addSubtitle("Look how far we've come!", -150);
-    this.addEra("????-Present");
+    this.addEra("Unkown-Present");
     this.addText({
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nVestibulum aliquam imperdiet risus, ut condimentum velit ultricies eu.\nPraesent auctor bibendum dui non pharetra.\nInteger luctus, metus nec fringilla consectetur,\nleo sem lacinia dolor, quis iaculis lectus diam eget nisi.",
       font: "SuisseIntl-Bold",
