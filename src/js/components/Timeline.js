@@ -788,15 +788,7 @@ export default class Timeline {
     }
 
     if (this.bibliographySection.isOpen) {
-      this.linkIntersect = this.raycaster.intersectObject(
-        this.bibliographySection.linkBox
-      );
-
-      if (this.linkIntersect.length > 0) {
-        this.dom.cursor.dataset.cursor = "eye";
-      } else if (this.dom.cursor.dataset.cursor !== "cross") {
         this.dom.cursor.dataset.cursor = "cross";
-      }
     }
   }
 

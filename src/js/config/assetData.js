@@ -85,7 +85,7 @@ Very advanced sound hardware for the time
     "mariobro_Trim.mp4": {
       caption: "Super Mario Bros. (Famicon/NES, 1983/1985)",
       content: `Arguably the most popular soundtrack of all time.
-Helped push music into an intengral part of game design, not just to draw attention.`,
+Helped push music into an integral part of game design, not just to draw attention.`,
     },
     "Final Fantasy NES Solo White Mage.mp4": {
       caption: "Final Fantasy (NES, 1987)",
