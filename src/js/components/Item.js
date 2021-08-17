@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import frag from "../shaders/item.frag";
 import vert from "../shaders/default.vert";
+import { BufferGeometryUtils } from "../utils/BufferGeometryUtils";
 
 export class ImageItem extends THREE.Group {
   constructor(
@@ -211,19 +212,42 @@ export class VideoItem extends THREE.Group {
       this.add(this.caption);
     }
     if (this.data.content) {
-      let contentGeom = new THREE.TextBufferGeometry(this.data.content, {
-        font: this.timeline.assets.fonts["Suisse Intl"],
-        size: 14,
-        height: 0,
-        curveSegments: 4,
-      }).center();
+      const lines = this.data.content.split(/\r?\n/);
+      const textGeoms = [];
 
-      this.content = new THREE.Mesh(contentGeom, this.timeline.captionTextMat);
+      for (const i in lines) {
+        let geom = new THREE.TextBufferGeometry(lines[i], {
+          font: this.timeline.assets.fonts["Suisse Intl"],
+          size: 14,
+          height: 0,
+          curveSegments: 4,
+        })
+          .center()
+          .translate(0, -i * 30, 0);
+        textGeoms.push(geom);
+      }
+
       let yOffset = 75;
+      const merged = BufferGeometryUtils.mergeBufferGeometries(textGeoms);
+      this.content = new THREE.Mesh(merged, this.timeline.captionTextMat);
       this.content.position.set(0, -(this.mesh.scale.y / 2 + yOffset), 0);
       this.content.visible = false;
 
       this.add(this.content);
+
+      // let contentGeom = new THREE.TextBufferGeometry(this.data.content, {
+      //   font: this.timeline.assets.fonts["Suisse Intl"],
+      //   size: 14,
+      //   height: 0,
+      //   curveSegments: 4,
+      // }).center();
+
+      // this.content = new THREE.Mesh(contentGeom, this.timeline.captionTextMat);
+      // let yOffset = 75;
+      // this.content.position.set(0, -(this.mesh.scale.y / 2 + yOffset), 0);
+      // this.content.visible = false;
+
+      // this.add(this.content);
     }
   }
 }

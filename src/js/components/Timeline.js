@@ -329,7 +329,7 @@ export default class Timeline {
   }
 
   openItem(item) {
-    if (!this.isMuted) {
+    if (item.video && !this.isMuted) {
       this.audio.pause();
       item.video.muted = false;
     }
@@ -455,9 +455,9 @@ export default class Timeline {
       // item.caption
       //         ? item.caption.position.y - 20
       //         : -item.mesh.scale.y / 2 - 50;
-      console.log(item.caption.position.y - 20);
-      console.log(-item.mesh.scale.y / 2 - 50);
-      console.log(this.linkGroup.position.y);
+      // console.log(item.caption.position.y - 20);
+      // console.log(-item.mesh.scale.y / 2 - 50);
+      // console.log(this.linkGroup.position.y);
 
       TweenMax.fromTo(
         this.linkGroup.position,
@@ -507,10 +507,10 @@ export default class Timeline {
 
   closeItem() {
     if (!this.itemAnimating && this.itemOpen) {
-      if (!this.isMuted) {
+      if (this.itemOpen.video && !this.isMuted) {
         this.audio.play();
+        this.itemOpen.video.muted = true;
       }
-      this.itemOpen.video.muted = true;
 
       this.itemAnimating = true;
       this.dom.cursor.dataset.cursor = "pointer";
@@ -565,6 +565,7 @@ export default class Timeline {
           this.captionTextMat.visible = false;
           this.linkUnderlineMat.visible = false;
           if (this.itemOpen.caption) this.itemOpen.caption.visible = false;
+          if (this.itemOpen.content) this.itemOpen.content.visible = false;
           this.linkGroup.visible = false;
         },
       });
@@ -1124,7 +1125,7 @@ export default class Timeline {
         if (this.isMuted) {
           muteDiv.replaceChild(this.muteButton, this.unmuteButton);
           if (this.itemOpen) {
-            this.itemOpen.video.muted = false;
+            if (this.itemOpen.video) this.itemOpen.video.muted = false;
           } else {
             this.audio.play();
           }
@@ -1132,7 +1133,7 @@ export default class Timeline {
         } else {
           muteDiv.replaceChild(this.unmuteButton, this.muteButton);
           if (this.itemOpen) {
-            this.itemOpen.video.muted = true;
+            if (this.itemOpen.video) this.itemOpen.video.muted = true;
           } else {
             this.audio.pause();
           }
