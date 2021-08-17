@@ -105,7 +105,7 @@ has a much more complex soundtrack that still follows the themes from the origin
       content: `The Game Boy, despite being released a decade after the NES, 
 utilized modest sound hardware to remain portable.
 It only supported 4 sound channels, so technically 
-the Commodore 64's chip was more advanced.`,
+the NES's chip was more advanced.`,
     },
   },
   sampling: {
@@ -131,7 +131,7 @@ has been adopted as a nickname for the synthwave music genre (outrun music)!`,
       },
     "linktothepast.mp4": {
       caption: "The Legend of Zelda: A Link to the Past (SNES 1991)",
-      content: `Experimented with architectural acoustics.
+      content: `Experimented with architectural acoustics via sampling.
 Notice how the music has more reverb when link enters a building.`,
     },
     "Super Nintendo - Donkey Kong Country (Part 1_40 Jungle Hijinxs!)-DoaaAuLmGyU_Trim.mp4":
@@ -197,13 +197,13 @@ specialized formats for compressed audio playback.`,
     "gta ps1-02kMHWKaMg8_Trim.mp4": {
       caption: "Grand Theft Auto (MS-DOS/PlayStation, 1997)",
       content: `PlayStation version mixed music composed for the game 
-and preexisting popular music using CD audio.`,
+and preexisting popular music using compressed audio.`,
     },
     "Dance Dance Revolution USA PSX (2001)-I588xfrafCM_Trim.mp4": {
       caption: "Dance Dance Revolution (Arcade/PlayStation, 1998/1999)",
       volume: 0.5,
       content: `PlayStation version also mixed music composed for the game 
-and preexisting popular music using CD audio. 
+and preexisting popular music using compressed audio. 
 Contained dozens of different full length tracks.`,
     },
     "Final Fantasy 7 ... (PS1) Gameplay-Ha9N-I_3aIc_Trim.mp4": {
@@ -214,8 +214,10 @@ He instead opted to use sounds produced by the PlayStation's internal sound sequ
     },
     "Pokémon Diamond (NDS) - Longplay Part 1_2-D4O77H95aTg_Trim.mp4": {
       caption: "Pokémon Diamond and Pearl (Nintendo DS, 2006)",
-      content: `Despite the popularity of CD and streamed audio, 
-the Nintendo DS still used sequenced music samples due to storage limitations.`,
+      content: `Despite the popularity of CD and compressed audio, 
+the Nintendo DS still used sequenced music samples due to storage limitations.
+The DS still used cartridges whereas gen-5 consoles 
+switched to storing games on CD disc.`,
     },
   },
   // dynamic: { "Main Title - Banjo-Kazooie.mp3": BACKGROUND_MUSIC },
